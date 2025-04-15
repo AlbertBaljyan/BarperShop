@@ -5,12 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities
+namespace BLL.Dto
 {
-    public class ServicePrice
+    public class CreateServicePriceDto
     {
-        public int Id { get; set; }
-        public int ServiceId { get; set; }
         public BarberLevel Level { get; set; }
         public decimal Price { get; set; }
         public TimeSpan Duration { get; set; }

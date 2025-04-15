@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Repository
 {
-    interface IUOW
+   public interface IUOW
     {
         void Save();
     }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.ViewModel.booking
+namespace WebAPI.ViewModel
 {
-    public class BookingVM
+    public class BarberVM
     {
     }
 }

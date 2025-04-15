@@ -13,7 +13,7 @@ namespace BarbershopClient
     public class MainPageViewModel : INotifyPropertyChanged
     {
         private readonly BarberApiService _apiService;
-        public ObservableCollection<BarberDto> Barbers { get; set; } = new();
+        public ObservableCollection<BarberVM> Barbers { get; set; } = new();
 
         public MainPageViewModel(BarberApiService apiService)
         {

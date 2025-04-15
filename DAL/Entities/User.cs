@@ -11,6 +11,7 @@ namespace DAL
     public class User : IdentityUser<int>
     {
         public ICollection<Booking> Bookings { get; set; }
-
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 }

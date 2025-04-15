@@ -8,5 +8,10 @@ namespace DAL.Enum
 {
     public enum  BarberLevel
     {
+        Spring,
+        Summer,
+        Autumn,
+        Winter
+
     }
 }

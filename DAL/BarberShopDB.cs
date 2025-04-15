@@ -15,6 +15,7 @@ namespace DAL
 
         public DbSet<Barber> Barbers { get; set; }
         public DbSet<BarberSchedule> BarberSchedules { get; set; }
+        public DbSet<BarberScheduleException> BarberScheduleExceptions { get; set; } 
         public DbSet<Service> Services { get; set; }
         public DbSet<ServicePrice> ServicePrices { get; set; }
         public DbSet<Booking> Bookings { get; set; }

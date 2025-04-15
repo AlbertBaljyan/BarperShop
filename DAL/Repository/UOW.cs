@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,14 @@ namespace DAL.Repository
 {
     public class UOW : IUOW
     {
+        private readonly BarberShopDB _context;
+        public UOW(BarberShopDB context)
+        {
+            _context = context;
+        }
         public void Save()
         {
-            throw new NotImplementedException();
+            _context.SaveChanges();
         }
     }
 }

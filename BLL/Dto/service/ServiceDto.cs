@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities
+namespace BLL.Dto
 {
-    public class Service
+    public class ServiceDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<ServicePrice> Prices { get; set; }  // цены по уровням барберов
+        public List<ServicePriceDto> Prices { get; set; }
     }
 }

@@ -17,17 +17,10 @@ namespace DAL.Repository
             _context = context;
         }
 
-        // Получение всех барберов
-        public async Task<IEnumerable<Barber>> GetAllAsync()
-        {
-            return await _context.Barbers
-                .Include(b => b.Schedule)  // Включаем расписание барбера
-                .Include(b => b.Bookings)  // Включаем записи барбера
-                .ToListAsync();
-        }
+
 
         // Получение барбера по ID
-        public async Task<Barber> GetByIdAsync(int id)
+        public async Task<Barber> GetForUpdateAsync(int id)
         {
             return await _context.Barbers
                 .Include(b => b.Schedule)  // Включаем расписание
@@ -36,29 +29,37 @@ namespace DAL.Repository
         }
 
         // Добавление нового барбера
-        public async Task AddAsync(Barber barber)
+        public async Task CreateBarberAsync(Barber barber)
         {
             await _context.Barbers.AddAsync(barber);
-           await _context.SaveChangesAsync();
+
         }
 
         // Обновление барбера
-        public async Task UpdateAsync(Barber barber)
+        public async Task UpdateBarberAsync(Barber barber)
         {
-            _context.Barbers.Update(barber);
-            await _context.SaveChangesAsync();
-        }
-
-        // Удаление барбера по ID
-        public async Task DeleteAsync(int id)
-        {
-            var barber = await _context.Barbers.FindAsync(id);
-            if (barber != null)
+            var entiti = _context.Barbers.FirstOrDefault(b => b.Id == barber.Id);
+            if (entiti != null)
             {
-                _context.Barbers.Remove(barber);
-               await _context.SaveChangesAsync();
+                entiti.BIO = barber.BIO;
+                entiti.Photo = barber.Photo;
+                entiti.Schedule = barber.Schedule;
+                entiti.Level = barber.Level;
+            }
+                _context.Barbers.Update(barber);
+            }
+
+            // Удаление барбера по ID
+            public async Task DeleteAsync(int id)
+            {
+                var barber = await _context.Barbers.FindAsync(id);
+                if (barber != null)
+                {
+                    _context.Barbers.Remove(barber);
+                    
+                }
             }
         }
     }
-}
-    
+
+

@@ -1,4 +1,5 @@
-﻿using BLL.Services;
+﻿using BLL.Dto;
+using BLL.Services;
 using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,7 @@ namespace Web_Apis.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Barber>>> GetBarbers()
         {
-            var barbers = await _barberService.GetAllAsync();  // Получаем всех барберов через сервис
+            var barbers = await _barberService.GetAllBarbersAsync();  // Получаем всех барберов через сервис
             return Ok(barbers);  // Возвращаем успешный ответ с барберами
         }
 
@@ -27,7 +28,7 @@ namespace Web_Apis.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Barber>> GetBarber(int id)
         {
-            var barber = await _barberService.GetByIdAsync(id);  // Получаем барбера по ID через сервис
+            var barber = await _barberService.GetByBarberIdAsync(id);  // Получаем барбера по ID через сервис
 
             if (barber == null)  // Если барбер не найден
             {
@@ -39,7 +40,7 @@ namespace Web_Apis.Controllers
 
         // Создать нового барбера
         [HttpPost]
-        public async Task<ActionResult<Barber>> CreateBarber(Barber barber)
+        public async Task<ActionResult<Barber>> CreateBarber(CreateBarberDto barber)
         {
             await _barberService.CreateAsync(barber);  // Создаём барбера через сервис
             return CreatedAtAction(nameof(GetBarber), new { id = barber.Id }, barber);  // Возвращаем созданного барбера с 201 статусом
@@ -47,7 +48,7 @@ namespace Web_Apis.Controllers
 
         // Обновить информацию о барбере
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBarber(int id, Barber barber)
+        public async Task<IActionResult> UpdateBarber(int id, CreateBarberDto barber)
         {
             if (id != barber.Id)  // Если ID не совпадает с тем, что в теле запроса
             {

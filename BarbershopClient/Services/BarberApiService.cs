@@ -17,12 +17,12 @@ namespace BarbershopClient.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<BarberDto>> GetBarbersAsync()
+        public async Task<List<BarberVM>> GetBarbersAsync()
         {
             var response = await _httpClient.GetAsync("api/barbers");
             response.EnsureSuccessStatusCode();
             var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<List<BarberDto>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return JsonSerializer.Deserialize<List<BarberVM>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }
 

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.ViewModel
+namespace WebAPI.ViewModel
 {
-    public class BarberVM
+    public class ServiceVM
     {
     }
 }

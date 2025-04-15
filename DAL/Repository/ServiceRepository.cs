@@ -19,8 +19,8 @@ namespace DAL.Repository
 
         public async Task<Service> GetByIdAsync(int id)
         {
-          var a=  await _context.Services.Include(s => s.Prices).FirstOrDefaultAsync(s => s.Id == id);
-            return a;
+          var entity=  await _context.Services.Include(s => s.Prices).FirstOrDefaultAsync(s => s.Id == id);
+            return entity;
         }
 
 

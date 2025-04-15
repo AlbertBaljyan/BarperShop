@@ -1,4 +1,4 @@
-﻿using BLL.ViewModel;
+﻿using BLL.Dto;
 using DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,10 +10,11 @@ namespace BLL.Services
 {
     public interface IBarberService
     {
-        Task<IEnumerable<Barber>> GetAllAsync();   // Получить всех барберов
-        Task<Barber> GetByIdAsync(int id);         // Получить барбера по ID
-        Task CreateAsync(Barber barber);           // Создать нового барбера
-        Task UpdateAsync(Barber barber);           // Обновить барбера
+        Task<List<BarberDto>> GetAllBarbersAsync();   // Получить всех барберов
+        Task<Barber> GetForUpdateAsync(int id);         // Получить барбера по ID
+        Task<BarberDetailsDto> GetByBarberIdAsync(int id);         // Получить барбера по ID
+        Task CreateAsync(CreateBarberDto barber);           // Создать нового барбера
+        Task UpdateAsync(CreateBarberDto barber);           // Обновить барбера
         Task DeleteAsync(int id);                  // Удалить барбера
     }
 

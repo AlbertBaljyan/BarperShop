@@ -1,6 +1,9 @@
-﻿using BLL.ViewModel;
+﻿using BLL.Dto;
+using BLL.Queries;
+using DAL;
 using DAL.Entities;
 using DAL.Repository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,42 +16,90 @@ namespace BLL.Services
     public class BarberService : IBarberService
     {
         private readonly IBarberRepository _barberRepository;
-
-        public BarberService(IBarberRepository barberRepository)
+        private readonly IUOW _uow;
+        private readonly BarberShopDB _context;
+        public BarberService(IBarberRepository barberRepository, BarberShopDB context, IUOW uow)
         {
+            _context = context;
             _barberRepository = barberRepository;  // Инжекция репозитория через DI
+            _uow = uow;
+        }
+
+        public async Task CreateAsync(CreateBarberDto barber)
+        {
+            var entity = new Barber()
+            {
+                Name = barber.Name,
+                Photo = barber.Photo,
+                Level = barber.Level,
+                BIO = barber.BIO,
+                Schedule = barber.Schedule.Select(bs => new BarberSchedule()
+                {
+                    DayOfWeek = bs.DayOfWeek,
+                }).ToList(),
+            };
+            await _barberRepository.CreateBarberAsync(entity);
+            _uow.Save();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _barberRepository.DeleteAsync(id);
+            _uow?.Save();
         }
 
         // Получить всех барберов
-        public Task<IEnumerable<Barber>> GetAllAsync()
+        public async Task<List<BarberDto?>> GetAllBarbersAsync()
         {
-            return _barberRepository.GetAllAsync();  // Делегируем вызов репозиторию
+            return await _context.Barbers.GetAllBarbersAsync();  // Делегируем вызов репозиторию
         }
 
         // Получить барбера по ID
-        public Task<Barber> GetByIdAsync(int id)
+
+        public async Task<BarberDetailsDto?> GetByBarberIdAsync(int id)
         {
-            return _barberRepository.GetByIdAsync(id);  // Делегируем вызов репозиторию
+            return await _context.Barbers
+                .Include(b => b.Schedule)
+                .Include(b => b.ScheduleExceptions)
+                .Include(b => b.Bookings).ThenInclude(b => b.Service)
+                .GetByBarberId(id)
+                .FirstOrDefaultAsync();
         }
 
-        // Добавить нового барбера
-        public Task CreateAsync(Barber barber)
+        public async Task<Barber> GetForUpdateAsync(int id)
         {
-            return _barberRepository.AddAsync(barber);  // Делегируем вызов репозиторию
+            return await _barberRepository.GetForUpdateAsync(id);
+
+            
         }
 
-        // Обновить барбера
-        public Task UpdateAsync(Barber barber)
+        public async Task UpdateAsync(CreateBarberDto barber)
         {
-            return _barberRepository.UpdateAsync(barber);  // Делегируем вызов репозиторию
-        }
-
-        // Удалить барбера
-        public Task DeleteAsync(int id)
-        {
-            return _barberRepository.DeleteAsync(id);  // Делегируем вызов репозиторию
+            var model =  await GetForUpdateAsync(barber.Id);
+            model.BIO=barber.BIO;
+            model.Level=barber.Level;
+            model.Name=barber.Name; 
+            model.Photo=barber.Photo;
+            model.Schedule=barber.Schedule.Select(bs=>new BarberSchedule()
+            {
+                DayOfWeek=bs.DayOfWeek,
+                StartTime=bs.StartTime,
+                EndTime=bs.EndTime,
+            }).ToList();
+           _barberRepository.UpdateBarberAsync(model);
+            _uow.Save();
+            
         }
     }
 
+ 
+
 }
+
+
+
+
+
+
+
 

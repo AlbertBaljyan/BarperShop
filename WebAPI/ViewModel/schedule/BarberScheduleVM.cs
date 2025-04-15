@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.ViewModel.schedule
+namespace WebAPI.ViewModel
 {
     public class BarberScheduleVM
     {

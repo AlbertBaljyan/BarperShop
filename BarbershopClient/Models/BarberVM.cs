@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Entities
+namespace BarbershopClient.Models
 {
-    public class Service
+    public class BarberVM
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public ICollection<ServicePrice> Prices { get; set; }  // цены по уровням барберов
+        public string BIO { get; set; }
+        public string Photo { get; set; }
+        public string Level { get; set; }
     }
+
 }

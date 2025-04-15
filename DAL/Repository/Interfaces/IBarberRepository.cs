@@ -9,10 +9,9 @@ namespace DAL.Repository
 {
     public interface IBarberRepository
     {
-        Task<IEnumerable<Barber>> GetAllAsync();    // Получить всех барберов
-        Task<Barber> GetByIdAsync(int id);         // Получить барбера по ID
-        Task AddAsync(Barber barber);              // Добавить нового барбера
-        Task UpdateAsync(Barber barber);           // Обновить барбера
+        Task<Barber> GetForUpdateAsync(int id);         // Получить барбера по ID
+        Task CreateBarberAsync(Barber barber);              // Добавить нового барбера
+        Task UpdateBarberAsync(Barber barber);           // Обновить барбера
         Task DeleteAsync(int id);                  // Удалить барбера по ID
     }
 
